@@ -1,0 +1,26 @@
+{
+  "name": "@afe/vesta-dragdrop",
+  "version": "0.0.1",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "antd": "^4.0.0",
+    "classnames": "^2.2.6",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  },
+  "dependencies": {
+    "array-move": "^2.2.1",
+    "lodash": "^4.17.15",
+    "react-sortable-hoc": "^1.11.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.0.25",
+    "@types/react-dom": "^16.0.3",
+    "@types/react-sortable-hoc": "^0.7.1"
+  },
+  "gitHead": "3ba5833e8abe2fa49c784c5772e1f14cdcf80df2"
+}

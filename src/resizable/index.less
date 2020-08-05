@@ -1,0 +1,127 @@
+@m-resizable_handle_width: 8px;
+@m-resizable_handle_corner: 8px;
+@m-resizable_handle_offset: 4px;
+
+.m-resizable {
+  position: relative;
+
+  .resizable_handle {
+    position: absolute;
+    z-index: 20;
+  }
+
+  .resizable_handle-top {
+    cursor: ns-resize;
+    top: -@m-resizable_handle_offset;
+    left: @m-resizable_handle_corner - @m-resizable_handle_offset;
+    right: @m-resizable_handle_corner - @m-resizable_handle_offset;
+    height: @m-resizable_handle_width;
+  }
+
+  .resizable_handle-bottom {
+    cursor: ns-resize;
+    bottom: -@m-resizable_handle_offset;
+    left: @m-resizable_handle_corner - @m-resizable_handle_offset;
+    right: @m-resizable_handle_corner - @m-resizable_handle_offset;
+    height: @m-resizable_handle_width;
+  }
+
+  .resizable_handle-left {
+    cursor: ew-resize;
+    left: -@m-resizable_handle_offset;
+    top: @m-resizable_handle_corner - @m-resizable_handle_offset;
+    bottom: @m-resizable_handle_corner - @m-resizable_handle_offset;
+    width: @m-resizable_handle_width;
+  }
+
+  .resizable_handle-right {
+    cursor: ew-resize;
+    right: -@m-resizable_handle_offset;
+    top: @m-resizable_handle_corner - @m-resizable_handle_offset;
+    bottom: @m-resizable_handle_corner - @m-resizable_handle_offset;
+    width: @m-resizable_handle_width;
+  }
+
+  .resizable_handle-topleft {
+    cursor: nwse-resize;
+    top: -@m-resizable_handle_offset;
+    left: -@m-resizable_handle_offset;
+    width: @m-resizable_handle_corner;
+    height: @m-resizable_handle_corner;
+  }
+
+  .resizable_handle-topright {
+    cursor: nesw-resize;
+    top: -@m-resizable_handle_offset;
+    right: -@m-resizable_handle_offset;
+    width: @m-resizable_handle_corner;
+    height: @m-resizable_handle_corner;
+  }
+
+  .resizable_handle-bottomleft {
+    cursor: nesw-resize;
+    bottom: -@m-resizable_handle_offset;
+    left: -@m-resizable_handle_offset;
+    width: @m-resizable_handle_corner;
+    height: @m-resizable_handle_corner;
+  }
+
+  .resizable_handle-bottomright {
+    cursor: nwse-resize;
+    bottom: -@m-resizable_handle_offset;
+    right: -@m-resizable_handle_offset;
+    width: @m-resizable_handle_corner;
+    height: @m-resizable_handle_corner;
+  }
+}
+
+.m-resizable-square {
+  .resizable_handle {
+    box-sizing: border-box;
+    background: white;
+    border: 1px solid #666;
+  }
+
+  .resizable_handle-top {
+    cursor: ns-resize;
+    top: -@m-resizable_handle_offset;
+    left: 50%;
+    margin-left: -@m-resizable_handle_width / 2;
+    width: @m-resizable_handle_width;
+    height: @m-resizable_handle_width;
+  }
+
+  .resizable_handle-bottom {
+    cursor: ns-resize;
+    bottom: -@m-resizable_handle_offset;
+    left: 50%;
+    margin-left: -@m-resizable_handle_width / 2;
+    width: @m-resizable_handle_width;
+    height: @m-resizable_handle_width;
+  }
+
+  .resizable_handle-left {
+    cursor: ew-resize;
+    left: -@m-resizable_handle_offset;
+    top: 50%;
+    margin-top: -@m-resizable_handle_width / 2;
+    width: @m-resizable_handle_width;
+    height: @m-resizable_handle_width;
+  }
+
+  .resizable_handle-right {
+    cursor: ew-resize;
+    right: -@m-resizable_handle_offset;
+    top: 50%;
+    margin-top: -@m-resizable_handle_width / 2;
+    width: @m-resizable_handle_width;
+    height: @m-resizable_handle_width;
+  }
+}
+
+.m-resizable-debug {
+  .resizable_handle:hover,
+  .resizable_handle.z-dragSource {
+    background: rgba(0, 128, 255, 0.6);
+  }
+}

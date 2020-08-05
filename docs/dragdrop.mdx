@@ -1,0 +1,462 @@
+---
+name: DragDrop
+route: /component/dragdrop
+menu: 基础组件
+---
+
+import { Row, Col } from "antd";
+import {
+  Draggable,
+  Droppable,
+  Movable,
+  Resizable,
+  Sortable,
+  FileUpload,
+} from "@afe/vesta-dragdrop";
+import { Playground, Props } from "docz";
+import {
+  DragNode,
+  DropSimple,
+  DropRestrict,
+  SortableSimple,
+  SortableGrid,
+} from "./demo";
+
+# 拖拽
+
+## 安装
+
+`npm install @afe/vesta-dragdrop`
+
+## 使用
+
+`import { Draggable, Droppable, Movable, Resizable, Sortable } from '@afe/vesta-dragdrop'`
+
+## 拖拽 Draggable
+
+### 拖拽自身
+
+<Playground>
+  <Draggable proxy="self">
+    <div class="u-color u-color-primary">自身</div>
+  </Draggable>
+</Playground>
+
+### 拖拽代理
+
+<Playground>
+  <Draggable proxy="clone">
+    <div class="u-color u-color-primary">代理</div>
+  </Draggable>
+</Playground>
+
+### 拖拽自定义代理
+
+<Playground>
+  <Draggable proxy={<div class="u-color u-color-secondary">自定义代理</div>}>
+    <div class="u-color u-color-primary">拖我</div>
+  </Draggable>
+</Playground>
+
+### 自定义拖拽节点
+
+<Playground>
+  <DragNode />
+</Playground>
+
+```js
+this.trigger = React.createRef();
+<Draggable proxy="self" trigger={this.trigger}>
+  <div className="u-title" ref={this.trigger}>
+    标题
+  </div>
+  <div className="u-color u-color-primary">请拖动标题栏</div>
+</Draggable>;
+```
+
+### 事件
+
+请打开浏览器的控制台查看结果
+
+<Playground>
+  <Draggable
+    ondragstart={(event) => {
+      console.log("ondragstart", event);
+    }}
+    ondrag={(event) => {
+      console.log("ondrag", event);
+    }}
+    ondragend={(event) => {
+      console.log("ondragend", event);
+    }}
+  >
+    <div class="u-color u-color-primary">代理</div>
+  </Draggable>
+</Playground>
+
+## Draggable Options
+
+| 参数            | 说明                         | 类型                           | 默认值         |
+| --------------- | ---------------------------- | ------------------------------ | -------------- |
+| proxy           | 代理元素                     | string\|ReactElement\|Function | 'clone'        |
+| value           | 拖拽时需要传递的值           | any                            | -              |
+| type            | 拖拽类型，droppable 需接收   | string                         | -              |
+| disabled        | 是否禁用                     | Boolean                        | false          |
+| trigger         | 自定义拖拽节点               | ReactRef                       | -              |
+| sourceClassName | 拖拽时给起始元素附加此 class | string                         | 'z-dragSource' |
+| proxyClassName  | 拖拽时给代理元素附加此 class | string                         | 'z-dragProxy'  |
+
+## Draggable Events
+
+| 参数        | 说明           | 类型     | 默认值 |
+| ----------- | -------------- | -------- | ------ |
+| ondragstart | 拖拽开始时触发 | Function | -      |
+| ondrag      | 正在拖拽时触发 | Function | -      |
+| ondragend   | 拖拽结束时触发 | Function | -      |
+
+## 拖放 Droppable
+
+### 基本功能
+
+<Playground>
+  <DropSimple />
+</Playground>
+
+```js
+<Draggable value="success"><div className="u-color u-color-success">拖我</div></Draggable>
+<Draggable value="warning"><div className="u-color u-color-warning">拖我</div></Draggable>
+<Draggable value="error"><div className="u-color u-color-error">拖我</div></Draggable>
+<Droppable
+   ondrop={(event, value) => {this.setState({ value });}}
+>
+   <div className={`u-color u-color-${this.state.value}`}>放到这里</div>
+</Droppable>
+```
+
+### 拖放约束
+
+<Playground>
+  <DropRestrict />
+</Playground>
+
+```js
+<Draggable value="success" type="success"><div className="u-color u-color-success">拖我</div></Draggable>
+<Draggable value="warning" type="warning"><div className="u-color u-color-warning">拖我</div></Draggable>
+<Draggable value="error" type="error"><div className="u-color u-color-error">拖我</div></Draggable>
+<br />
+<Droppable
+   types={['success']}
+   ondrop={(event, value1) => {this.setState({ value1 })}}
+>
+   <div className={`u-color u-color-primary u-color-${this.state.value1}`}>放到这里</div>
+</Droppable>
+<Droppable
+   types={['warning']}
+   ondrop={(event, value2) => {this.setState({ value2 })}}
+>
+   <div className={`u-color u-color-primary u-color-${this.state.value2}`}>放到这里</div>
+</Droppable>
+<Droppable
+   types={['error']}
+   ondrop={(event, value3) => {this.setState({ value3 })}}
+>
+   <div className={`u-color u-color-primary u-color-${this.state.value3}`}>放到这里</div>
+</Droppable>
+```
+
+### 事件
+
+请打开浏览器的控制台查看结果
+
+<Playground>
+  <Draggable>
+    <div className="u-color u-color-success">拖我</div>
+  </Draggable>
+  <Droppable
+    ondragenter={(event) => {
+      console.log("ondragenter", event);
+    }}
+    ondragover={(event) => {
+      console.log("ondragover", event);
+    }}
+    ondragleave={(event) => {
+      console.log("ondragleave", event);
+    }}
+    ondrop={(event, value) => {
+      console.log("ondrop", event);
+    }}
+  >
+    <div className="u-color u-color-primary">放到这里</div>
+  </Droppable>
+</Playground>
+
+## Droppable Options
+
+| 参数                | 说明                                   | 类型     | 默认值         |
+| ------------------- | -------------------------------------- | -------- | -------------- |
+| types               | 可以接收的 draggable 类型              | string[] | -              |
+| disabled            | 是否禁用                               | Boolean  | false          |
+| dragTargetClassName | 拖拽目标元素附加此 class               | string   | 'z-dragTarget' |
+| dragOverClassName   | 拖拽在该元素上方时给该元素附加此 class | string   | 'z-dragOver'   |
+
+## Droppable Events
+
+| 参数        | 说明                     | 类型     | 默认值 |
+| ----------- | ------------------------ | -------- | ------ |
+| ondragenter | 拖拽进入目标元素时触发   | Function | -      |
+| ondragover  | 拖拽在目标元素上方时触发 | Function | -      |
+| ondragleave | 拖拽离开目标元素时触发   | Function | -      |
+| ondrop      | 拖拽放置时触发           | Function | -      |
+
+## 文件上传 FileUpload
+
+<Playground>
+  <FileUpload
+    ondrop={(event, files) => {
+      console.log("drop", files);
+      // upload file
+      // const formData = new FormData();
+      // formData.append('file', files[0]);
+      // return axios.post('api/upload', formData);
+    }}
+  >
+    <div className="u-color u-color-primary">文件上传</div>
+  </FileUpload>
+</Playground>
+
+## FileUpload Options
+
+| 参数              | 说明                                   | 类型    | 默认值       |
+| ----------------- | -------------------------------------- | ------- | ------------ |
+| disabled          | 是否禁用                               | Boolean | false        |
+| dragOverClassName | 拖拽在该元素上方时给该元素附加此 class | string  | 'z-dragOver' |
+
+## FileUpload Events
+
+| 参数        | 说明                     | 类型     | 默认值 |
+| ----------- | ------------------------ | -------- | ------ |
+| ondragenter | 拖拽进入目标元素时触发   | Function | -      |
+| ondragover  | 拖拽在目标元素上方时触发 | Function | -      |
+| ondragleave | 拖拽离开目标元素时触发   | Function | -      |
+| ondrop      | 拖拽放置时触发           | Function | -      |
+
+## 拖移 Movable
+
+### 轴向约束
+
+<Playground>
+  <Movable axis="x">
+    <div class="u-color u-color-info">水平</div>
+  </Movable>
+  <Movable axis="y">
+    <div class="u-color u-color-warning">垂直</div>
+  </Movable>
+</Playground>
+
+### 网格约束
+
+<Playground>
+  <Movable grid={{ x: 40, y: 30 }}>
+    <div class="u-color u-color-success">网格</div>
+  </Movable>
+</Playground>
+
+### 范围约束
+
+<Playground>
+  <div class="m-well">
+    <Movable range={{ left: 0, top: 0, right: 200, bottom: 200 }}>
+      <div class="u-color u-color-info">object</div>
+    </Movable>
+  </div>
+  <div class="m-well">
+    <Movable range="offsetParent" rangeMode="inside">
+      <div class="u-color u-color-info">inside</div>
+    </Movable>
+  </div>
+  <div class="m-well">
+    <Movable range="offsetParent" rangeMode="center">
+      <div
+        class="u-color u-color-info"
+        style={{ position: "absolute", marginLeft: -68, marginTop: -68 }}
+      >
+        center
+      </div>
+    </Movable>
+  </div>
+  <div class="m-well">
+    <Movable range="offsetParent" rangeMode="outside">
+      <div class="u-color u-color-info">outside</div>
+    </Movable>
+  </div>
+</Playground>
+
+## Movable Options
+
+| 参数            | 说明                         | 类型                                                                 | 默认值         |
+| --------------- | ---------------------------- | -------------------------------------------------------------------- | -------------- |
+| axis            | 拖拽代理移动时限制的轴向     | string                                                               | 'both'         |
+| grid            | 拖拽代理移动时限制的网格     | {x:number;y:number}                                                  | -              |
+| range           | 拖拽范围                     | string\|{ left: number; right: number; top: number; bottom: number } | -              |
+| rangeMode       | 拖拽范围模式                 | string                                                               | 'inside'       |
+| proxy           | 代理元素                     | string\|ReactElement\|Function                                       | 'self'         |
+| value           | 拖拽时需要传递的值           | any                                                                  | -              |
+| type            | 拖拽类型，droppable 需接收   | string                                                               | -              |
+| disabled        | 是否禁用                     | Boolean                                                              | false          |
+| trigger         | 自定义拖拽节点               | ReactRef                                                             | -              |
+| sourceClassName | 拖拽时给起始元素附加此 class | string                                                               | 'z-dragSource' |
+| proxyClassName  | 拖拽时给代理元素附加此 class | string                                                               | 'z-dragProxy'  |
+
+## Movable Events
+
+| 参数        | 说明           | 类型     | 默认值 |
+| ----------- | -------------- | -------- | ------ |
+| ondragstart | 拖拽开始时触发 | Function | -      |
+| ondrag      | 正在拖拽时触发 | Function | -      |
+| ondragend   | 拖拽结束时触发 | Function | -      |
+
+## 调整大小 Resizable
+
+### 基本形式
+
+<Playground>
+  <Resizable>
+    <div class="m-panel">
+      <div class="panel_bd">将鼠标移到Panel边缘处，尝试调整大小。</div>
+    </div>
+  </Resizable>
+</Playground>
+
+### 设置句柄
+
+<Playground>
+  <Resizable handles={["bottom", "right", "bottomright"]} handleType="square">
+    <div class="m-panel">
+      <div class="panel_bd">将鼠标移到Panel边缘处，尝试调整大小。</div>
+    </div>
+  </Resizable>
+</Playground>
+
+### 最小值和最大值
+
+<Playground>
+  <Resizable minWidth="200" minHeight="100" maxWidth="300" maxHeight="200">
+    <div class="m-panel">
+      <div class="panel_bd">将鼠标移到Panel边缘处，尝试调整大小。</div>
+    </div>
+  </Resizable>
+</Playground>
+
+## Resizable Options
+
+| 参数       | 说明         | 类型                                                                 | 默认值                                                                                 |
+| ---------- | ------------ | -------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| left       | 水平位置     | number                                                               | 0                                                                                      |
+| top        | 垂直位置     | number                                                               | 0                                                                                      |
+| width      | 宽度         | number                                                               | 300                                                                                    |
+| height     | 高度         | number                                                               | 200                                                                                    |
+| minWidth   | 最小宽度     | number                                                               | 0                                                                                      |
+| minHeight  | 最小高度     | number                                                               | 0                                                                                      |
+| maxWidth   | 最大宽度     | number                                                               | Infinity                                                                               |
+| maxHeight  | 最大高度     | number                                                               | Infinity                                                                               |
+| range      | 拖拽范围     | string\|{ left: number; right: number; top: number; bottom: number } | -                                                                                      |
+| handles    | 句柄         | string[]                                                             | ['top', 'bottom', 'left', 'right', 'topleft', 'topright', 'bottomleft', 'bottomright'] |
+| handleType | 句柄类型     | string                                                               | -                                                                                      |
+| delay      | 拖拽延迟时间 | number                                                               | 0                                                                                      |
+| disabled   | 是否禁用     | boolean                                                              | false                                                                                  |
+| className  | 补充 class   | string                                                               | -                                                                                      |
+
+## Resizable Events
+
+| 参数   | 说明           | 类型     | 默认值 |
+| ------ | -------------- | -------- | ------ |
+| resize | 调整大小时触发 | Function | -      |
+
+## 排序 Sortable
+
+### 列表排序
+
+<Playground>
+  <SortableSimple />
+</Playground>
+
+```js
+export default class SortableSimple extends React.PureComponent {
+  state = {
+    items: Array.from({ length: 10 }).map((item, index) => `Item ${index}`),
+  };
+  onSortEnd = ({ arrayMove }) => {
+    this.setState(({ items }) => ({
+      items: arrayMove(items),
+    }));
+  };
+  render() {
+    return (
+      <Sortable onSortEnd={this.onSortEnd}>
+        <ul>
+          {this.state.items.map((value, index) => (
+            <Sortable.Item key={value} index={index}>
+              <li className="m-list-item">{value}</li>
+            </Sortable.Item>
+          ))}
+        </ul>
+      </Sortable>
+    );
+  }
+}
+```
+
+### 网格排序
+
+<Playground>
+  <SortableGrid />
+</Playground>
+
+```js
+export default class SortableSimple extends React.PureComponent {
+  state = {
+    items: Array.from({ length: 30 }).map((item, index) => `Item ${index}`),
+  };
+  onSortEnd = ({ arrayMove }) => {
+    this.setState(({ items }) => ({
+      items: arrayMove(items),
+    }));
+  };
+  render() {
+    return (
+      <Sortable axis="xy" onSortEnd={this.onSortEnd}>
+        <ul style={{ display: "flex", flexWrap: "wrap", width: 800 }}>
+          {this.state.items.map((value, index) => (
+            <Sortable.Item key={value} index={index}>
+              <li
+                className="m-list-item"
+                style={{
+                  width: 150,
+                  margin: 5,
+                }}
+              >
+                {value}
+              </li>
+            </Sortable.Item>
+          ))}
+        </ul>
+      </Sortable>
+    );
+  }
+}
+```
+
+## Sortable Options
+
+| 参数     | 说明     | 类型    | 默认值 |
+| -------- | -------- | ------- | ------ |
+| axis     | 排序轴向 | string  | y      |
+| disabled | 禁用排序 | boolean | false  |
+
+## Sortable Events
+
+| 参数        | 说明           | 类型     | 默认值 |
+| ----------- | -------------- | -------- | ------ |
+| onSortStart | 排序开始时触发 | Function | -      |
+| onSortMove  | 正在排序时触发 | Function | -      |
+| onSortEnd   | 排序结束时触发 | Function | -      |
